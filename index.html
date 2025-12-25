@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz Natal 🎄</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Georgia', serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #0b1d3a, #102a4e);
+      overflow-x: hidden;
+      color: #fff;
+      position: relative;
+    }
+
+    /* Moldura natalina */
+    .frame {
+      border: 12px solid transparent;
+      padding: 20px;
+      border-image: linear-gradient(45deg, red, green, gold, red) 1;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Estrela natalina */
+    .star {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2.5rem;
+      color: gold;
+      z-index: 20;
+      animation: pulse 2s infinite, twinkle 3s infinite ease-in-out;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    }
+
+    /* Fundo com estrelas */
+    .bg-stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkleStar 4s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    @keyframes twinkleStar {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.1); }
+    }
+    @keyframes swing {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Conteúdo central */
+    .container {
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+      padding: 80px 20px 40px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(6px);
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      margin-bottom: 30px;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .card h1 {
+      color: gold;
+      margin-bottom: 20px;
+      font-size: 2.4rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .card h1:hover {
+      transform: scale(1.05);
+    }
+
+    .card p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    /* Presente interativo */
+    .gift {
+      margin-top: 25px;
+      font-size: 2rem;
+      cursor: pointer;
+      animation: bounce 2s infinite;
+    }
+    .gift:hover {
+      transform: scale(1.15);
+    }
+    .secret-message {
+      margin-top: 20px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      display: none;
+      color: #ffeb3b;
+      font-style: italic;
+      animation: fadeIn 0.8s forwards;
+    }
+
+    /* Bonecos de neve */
+    .snowmen {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    .snowman {
+      width: 90px;
+      animation: swing 6s infinite ease-in-out;
+    }
+    .ball {
+      background: white;
+      border-radius: 50%;
+      margin: auto;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .ball.big { width: 90px; height: 90px; }
+    .ball.mid { width: 65px; height: 65px; margin-top: -10px; }
+    .ball.small { width: 45px; height: 45px; margin-top: -10px; }
+
+    /* Pomba da paz */
+    .dove {
+      position: absolute;
+      font-size: 1.8rem;
+      z-index: 5;
+      opacity: 0.9;
+      pointer-events: none;
+      animation: fly 25s linear infinite;
+    }
+    @keyframes fly {
+      from { transform: translate(-100px, 100vh) rotate(10deg); }
+      to { transform: translate(calc(100vw + 100px), -100px) rotate(-10deg); }
+    }
+
+    /* Fogos de artifício */
+    .firework {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 30;
+    }
+
+    /* Contagem regressiva */
+    .countdown {
+      margin-top: 30px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 15px;
+      font-size: 1.1rem;
+      color: gold;
+      animation: fadeIn 2s ease-out;
+    }
+    .countdown-values {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .countdown-box {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 8px 12px;
+      border-radius: 8px;
+      min-width: 60px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .countdown-label {
+      font-size: 0.8rem;
+      margin-top: 4px;
+      display: block;
+      color: #ccc;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 100px 15px 30px; }
+      .card h1 { font-size: 1.8rem; }
+      .snowman { width: 70px; }
+      .ball.big { width: 70px; height: 70px; }
+      .ball.mid { width: 50px; height: 50px; }
+      .ball.small { width: 35px; height: 35px; }
+      .star { font-size: 2rem; top: 15px; }
+      .dove { font-size: 1.4rem; }
+      .countdown-box { min-width: 50px; padding: 6px 8px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="star">⭐</div>
+  <div class="bg-stars" id="bg-stars"></div>
+  <div id="snowflakes"></div>
+  <div id="fireworks-container"></div>
+
+  <!-- Pombas da paz -->
+  <div class="dove" style="animation-delay: 0s; top: 30%;">🕊️</div>
+  <div class="dove" style="animation-delay: 5s; top: 50%; animation-duration: 22s;">🕊️</div>
+  <div class="dove" style="animation-delay: 12s; top: 70%; animation-duration: 28s;">🕊️</div>
+
+  <div class="frame">
+    <div class="container">
+      <div class="card">
+        <h1 id="title">
+          <span class="twinkle">🎄</span> Feliz Natal <span class="twinkle">🎄</span>
+        </h1>
+
+        <p>
+          Que neste Natal, o amor seja renovado em cada coração,<br>
+          que a família seja nosso maior abrigo,<br>
+          e que a união nos lembre da verdadeira essência da vida.<br><br>
+
+          Celebramos hoje o nascimento de Jesus Cristo,<br>
+          o maior símbolo de esperança, fé e paz.<br>
+          Que Ele renasça em nossos lares,<br>
+          trazendo luz onde há escuridão,<br>
+          conforto onde há dor<br>
+          e alegria em cada novo amanhecer.<br><br>
+
+          Que o espírito natalino permaneça vivo<br>
+          não apenas hoje, mas em todos os dias do ano.<br><br>
+
+          <strong>Feliz Natal! 🎁✨</strong>
+        </p>
+
+        <!-- Presente interativo -->
+        <div class="gift" id="gift">🎁</div>
+        <div class="secret-message" id="secret">
+          💌 Este Natal é especialmente para você!<br>
+          Que 2026 traga saúde, amor e realizações!
+        </div>
+
+        <!-- Contagem regressiva -->
+        <div class="countdown" id="countdown">
+          🕰️ <strong>Contagem regressiva para 2026!</strong>
+          <div class="countdown-values" id="countdown-values">
+            <div class="countdown-box"><span id="days">--</span><span class="countdown-label">Dias</span></div>
+            <div class="countdown-box"><span id="hours">--</span><span class="countdown-label">Horas</span></div>
+            <div class="countdown-box"><span id="minutes">--</span><span class="countdown-label">Min</span></div>
+            <div class="countdown-box"><span id="seconds">--</span><span class="countdown-label">Seg</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="snowmen">
+        <div class="snowman">
+          <div class="ball small"></div>
+          <div class="ball mid"></div>
+          <div class="ball big"></div>
+        </div>
+        <div class="snowman">
+          <div class="ball small"></div>
+          <div class="ball mid"></div>
+          <div class="ball big"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Estrelas de fundo
+    function createBgStars() {
+      const container = document.getElementById('bg-stars');
+      for (let i = 0; i < 120; i++) {
+        const star = document.createElement('div');
+        star.classList.add('bg-star');
+        star.style.width = Math.random() * 3 + 'px';
+        star.style.height = star.style.width;
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.top = Math.random() * 100 + 'vh';
+        star.style.animationDelay = Math.random() * 5 + 's';
+        container.appendChild(star);
+      }
+    }
+
+    // Neve
+    function createSnowflakes() {
+      const container = document.getElementById('snowflakes');
+      for (let i = 0; i < 120; i++) {
+        const flake = document.createElement('div');
+        flake.innerHTML = '❄';
+        Object.assign(flake.style, {
+          position: 'absolute',
+          top: '-20px',
+          left: Math.random() * 100 + 'vw',
+          fontSize: (Math.random() * 10 + 10) + 'px',
+          opacity: Math.random() * 0.7 + 0.3,
+          color: '#fff',
+          pointerEvents: 'none',
+          zIndex: '1'
+        });
+        const duration = Math.random() * 6 + 6;
+        const delay = Math.random() * 5;
+        flake.style.animation = `fall ${duration}s linear infinite ${delay}s`;
+        container.appendChild(flake);
+      }
+      if (!document.getElementById('snow-animation')) {
+        const style = document.createElement('style');
+        style.id = 'snow-animation';
+        style.innerHTML = `
+          @keyframes fall {
+            to { transform: translateY(105vh) rotate(${Math.random() > 0.5 ? '' : '-'}360deg); }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+
+    // Presente
+    document.getElementById('gift').addEventListener('click', function() {
+      const secret = document.getElementById('secret');
+      if (secret.style.display === 'block') {
+        secret.style.display = 'none';
+        this.textContent = '🎁';
+      } else {
+        secret.style.display = 'block';
+        this.textContent = '🎀';
+      }
+    });
+
+    // Fogos
+    document.getElementById('title').addEventListener('click', function(e) {
+      createFirework(e.clientX, e.clientY);
+    });
+
+    function createFirework(x, y) {
+      const container = document.getElementById('fireworks-container');
+      const colors = ['#ff0000', '#00ff00', '#ffff00', '#ff00ff', '#00ffff', '#ff8000', '#ffffff'];
+      
+      for (let i = 0; i < 150; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('firework');
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        const size = Math.random() * 4 + 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        
+        container.appendChild(particle);
+        
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 80 + 40;
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        
+        let opacity = 1;
+        let posX = x;
+        let posY = y;
+        const gravity = 0.5;
+        let velocityY = vy;
+        
+        const animate = () => {
+          velocityY += gravity;
+          posX += vx * 0.02;
+          posY += velocityY * 0.02;
+          opacity -= 0.015;
+          
+          particle.style.left = posX + 'px';
+          particle.style.top = posY + 'px';
+          particle.style.opacity = opacity;
+          
+          if (opacity > 0) {
+            requestAnimationFrame(animate);
+          } else {
+            particle.remove();
+          }
+        };
+        
+        setTimeout(animate, 0);
+      }
+    }
+
+    // Contagem regressiva para 1º de janeiro de 2026, 00:00:00 (horário local do usuário)
+    function updateCountdown() {
+      const now = new Date();
+      const target = new Date(2026, 0, 1, 0, 0, 0); // Ano, mês (0 = janeiro), dia, hora...
+      
+      if (now >= target) {
+        document.getElementById('countdown').innerHTML = '🎉 <strong>¡Feliz Año Nuevo 2026! 🎆</strong>';
+        return;
+      }
+
+      const diff = target - now;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    // Atualiza a cada segundo
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Executa imediatamente
+
+    // Iniciar tudo
+    window.addEventListener('load', () => {
+      createBgStars();
+      createSnowflakes();
+    });
+  </script>
+</body>
+</html>
